@@ -11,6 +11,8 @@ docker-compose up -d --build
 4.設置完成後，即可輸入下列網址就可以看到貨幣轉換器專案產生  
 http://localhost:8010/exchange
 
+提醒：資料夾名需設定為 exchange
+
 ---
 
 #單元測試使用方法
