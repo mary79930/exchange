@@ -16,6 +16,7 @@ class ExchangeController extends Controller
 
     // error code
     const PARAM_EMPTY = '1000'; // 參數為空
+    const PARAM_NOT_CORRECT = '1001'; // 數值須為正數
 
     /**
      * Dependency Injection
@@ -33,7 +34,7 @@ class ExchangeController extends Controller
     public function exchange(Request $request)
     {
         // 過濾參數
-        $amount = htmlspecialchars(trim($request->input('amount', ''))); // 金額
+        $amount = htmlspecialchars(trim($request->input('amount', 0))); // 金額
         $source = htmlspecialchars(trim($request->input('source', ''))); // 原貨幣
         $target = htmlspecialchars(trim($request->input('target', ''))); // 轉換貨幣
 
@@ -58,6 +59,14 @@ class ExchangeController extends Controller
             return [
                 'return_code' => self::PARAM_EMPTY,
                 'msg' => '請填寫金額！',
+            ];
+        }
+
+        // 金額非正數或不為數值
+        if ($amount < 0 || is_numeric($amount) === false) {
+            return [
+                'return_code' => self::PARAM_NOT_CORRECT,
+                'msg' => '請填寫正確金額！',
             ];
         }
 
